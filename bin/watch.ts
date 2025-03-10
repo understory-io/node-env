@@ -20,6 +20,7 @@ function start() {
       inputFiles.includes('package.json') ||
       inputFiles.includes('package-lock.json')
     ) {
+      console.log('Input Files for watch: ', inputFiles);
       await installAndRestart();
       return;
     }
