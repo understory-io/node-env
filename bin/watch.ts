@@ -17,10 +17,16 @@ const changes = await load(cwd);
 function start() {
   watcher = watch(async (success, inputFiles, outputFiles) => {
     if (
+      inputFiles.length === 1 &&
+      (inputFiles[0] === 'package.json' ||
+        inputFiles[0] === 'package-lock.json')
+    ) {
+      return;
+    }
+    if (
       inputFiles.includes('package.json') ||
       inputFiles.includes('package-lock.json')
     ) {
-      console.log('Input Files for watch: ', inputFiles);
       await installAndRestart();
       return;
     }
