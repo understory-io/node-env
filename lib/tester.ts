@@ -34,7 +34,7 @@ export async function test(
       'node',
       [
         'node_modules/mocha/bin/mocha.js',
-        '--parallel',
+        //'--parallel',
         '--jobs',
         '128',
         '--require',
