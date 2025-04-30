@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+import { prepare } from '../lib/env.js';
+await prepare();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHJlcGFyZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL2Jpbi9wcmVwYXJlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQSxPQUFPLEVBQUUsT0FBTyxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBRXhDLE1BQU0sT0FBTyxFQUFFLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIjIS91c3IvYmluL2VudiBub2RlXG5pbXBvcnQgeyBwcmVwYXJlIH0gZnJvbSAnLi4vbGliL2Vudi5qcyc7XG5cbmF3YWl0IHByZXBhcmUoKTtcbiJdfQ==

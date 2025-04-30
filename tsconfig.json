@@ -17,8 +17,10 @@
     "noImplicitThis": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "skipLibCheck": true
   },
   "include": ["**/*.ts"],
-  "exclude": []
+  "exclude": ["node_modules", "dist"]
 }

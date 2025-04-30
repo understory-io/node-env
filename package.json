@@ -33,13 +33,13 @@
   },
   "devDependencies": {},
   "scripts": {
-    "prepare": "tsc -p ./tsconfig.json && node ./bin/prepare.js",
-    "start": "npm run prepare && node ./bin/install.js && node ./bin/watch.js",
-    "prepack": "npm run prepare && node ./bin/build.js",
-    "prepublishOnly": "tsc && node ./bin/prepublish.js",
-    "postpublish": "node ./bin/sync.js",
-    "postinstall": "npm run prepare && node ./bin/install.js",
-    "postversion": "node ./bin/update.js",
+    "prepare": "tsc -p ./tsconfig.json && node ./dist/bin/prepare.js",
+    "start": "npm run prepare && node ./dist/bin/install.js && node ./dist/bin/watch.js",
+    "prepack": "npm run prepare && node ./dist/bin/build.js",
+    "prepublishOnly": "tsc && node ./dist/bin/prepublish.js",
+    "postpublish": "node ./dist/bin/sync.js",
+    "postinstall": "node ./dist/bin/prepare.js && node ./dist/bin/install.js",
+    "postversion": "node ./dist/bin/update.js",
     "lint": "eslint"
   },
   "files": [
@@ -54,9 +54,9 @@
     ".vscode/*.json"
   ],
   "bin": {
-    "riddance-watch": "./bin/watch.js",
-    "riddance-build": "./bin/build.js",
-    "riddance-prepublish": "./bin/prepublish.js",
-    "riddance-sync": "./bin/sync.js"
+    "riddance-watch": "./dist/bin/watch.js",
+    "riddance-build": "./dist/bin/build.js",
+    "riddance-prepublish": "./dist/bin/prepublish.js",
+    "riddance-sync": "./dist/bin/sync.js"
   }
 }

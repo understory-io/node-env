@@ -1,11 +1,12 @@
 .DS_Store
 .idea/
+.vscode/
 node_modules/
 *.js
 *.js.map
 *.d.ts
 .timestamps.json
 test/results/
-template/
 !.prettierrc.cjs
 !eslint.config.js
+!dist/**/*.js
