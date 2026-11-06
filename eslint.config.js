@@ -216,6 +216,10 @@ export default defineConfig([
     rules: Object.fromEntries(
       [
         'camelcase',
+        'no-unassigned-vars',
+        'no-unmodified-loop-condition',
+        'no-useless-assignment',
+        'preserve-caught-error',
         'consistent-this',
         'eqeqeq',
         'guard-for-in',
