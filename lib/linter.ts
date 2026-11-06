@@ -1,16 +1,9 @@
 import { ESLint } from 'eslint';
-import { join, relative } from 'node:path';
+import { relative } from 'node:path';
 import { Reporter } from './reporter.js';
 
 export function makeCache(path: string) {
-  return new ESLint({
-    cwd: path,
-    overrideConfig: {
-      parserOptions: {
-        project: join(path, 'tsconfig.json'),
-      },
-    },
-  });
+  return new ESLint({ cwd: path });
 }
 
 export async function lint(

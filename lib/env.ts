@@ -1,13 +1,13 @@
-import { existsSync } from 'node:fs';
 import {
+  access,
   copyFile,
   mkdir,
   readFile,
   rm,
   unlink,
-  writeFile
+  writeFile,
 } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
 const dirs = ['.vscode'];
 const files = [
@@ -17,7 +17,15 @@ const files = [
   '.vscode/settings.json',
   '.vscode/extensions.json',
 ];
-const overridableFiles: [string, (content: string) => boolean][] = [];
+const overridableFiles: [string, (content: string) => boolean][] = [
+  [
+    'eslint.config.js',
+    (content) =>
+      content.includes('@typescript-eslint/eslint-plugin') ||
+      content.includes('@typescript-eslint/parser'),
+  ],
+  ['tsconfig.json', (content) => /@tsconfig\/node(1\d|20)\//u.test(content)],
+];
 const legacyFiles = ['.prettierrc', '.prettierrc.json', '.eslintrc.json'];
 
 export async function prepare() {
@@ -27,7 +35,7 @@ export async function prepare() {
     dirs.map((dir) => mkdir(join('template', dir), { recursive: true }))
   );
   await Promise.all(
-    [...files, ...overridableFiles.map((f) => f[0])].map((file) =>
+    [...new Set([...files, ...overridableFiles.map((f) => f[0])])].map((file) =>
       copyFile(file, join('template', file))
     )
   );
@@ -57,14 +65,14 @@ export async function setup(targetDir: string) {
     dirs.map((dir) => mkdir(join(targetDir, dir), { recursive: true }))
   );
   await Promise.all(
-    files.map((file) => {
+    files.map(async (file) => {
       const dest = join(targetDir, file);
-      if (!existsSync(dest)) {
-        copyFile(join('template', file), dest);
+      if (!(await exists(dest))) {
+        await copyFile(join('template', file), dest);
       }
     })
   );
-  if (!targetDir.endsWith(join('riddance', 'node-env'))) {
+  if (resolve(targetDir) !== process.cwd()) {
     await copyFile('template/gitignore', join(targetDir, '.gitignore'));
   }
   for (const [file, belongsHere] of overridableFiles) {
@@ -92,6 +100,18 @@ async function ensureUnlinked(path: string) {
   } catch (e) {
     if (isFileNotFound(e)) {
       return;
+    }
+    throw e;
+  }
+}
+
+async function exists(path: string) {
+  try {
+    await access(path);
+    return true;
+  } catch (e) {
+    if (isFileNotFound(e)) {
+      return false;
     }
     throw e;
   }

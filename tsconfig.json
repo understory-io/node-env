@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "types": ["node", "mocha"],
     "allowJs": false,
     "declaration": true,
     "removeComments": false,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "alwaysStrict": true,
+    "strict": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noFallthroughCasesInSwitch": true,

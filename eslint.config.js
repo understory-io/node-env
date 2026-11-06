@@ -1,54 +1,36 @@
 import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
 import prettier from 'eslint-config-prettier';
+import { defineConfig } from 'eslint/config';
 import node from 'eslint-plugin-n';
-import preferArrow from 'eslint-plugin-prefer-arrow';
 import promise from 'eslint-plugin-promise';
 import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-export default [
-  js.configs.recommended,
+export default defineConfig([
+  {
+    ignores: ['**/*.js', '**/*.d.ts', 'test/results/'],
+  },
+  {
+    linterOptions: { reportUnusedDisableDirectives: 'off' },
+  },
   {
     files: ['**/*.ts'],
     ignores: ['**/*.d.ts', 'node_modules/**/*'],
+    extends: [js.configs.recommended, tseslint.configs.recommended, prettier],
     languageOptions: {
-      parser: tsParser,
       parserOptions: {
-        ecmaFeatures: { modules: true },
-        ecmaVersion: 'latest',
-        project: './tsconfig.json',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
       globals: globals.node,
     },
     plugins: {
       promise,
-      '@typescript-eslint': ts,
       unicorn,
-      'eslint-plugin-prefer-arrow': preferArrow,
       node,
-      prettier,
     },
     rules: {
-      ...ts.configs['eslint-recommended'].rules,
-      ...ts.configs['recommended'].rules,
-      // Disabling ident rule, because indentation is being handled by prettier.
-      /*indent: [
-        'error',
-        2,
-        {
-          SwitchCase: 1,
-          ArrayExpression: 1,
-          ObjectExpression: 1,
-          offsetTernaryExpressions: true,
-          flatTernaryExpressions: false,
-          FunctionDeclaration: { body: 1, parameters: 1 },
-          FunctionExpression: { body: 1, parameters: 1 },
-          CallExpression: { arguments: 1 },
-          MemberExpression: 1,
-        },
-      ],*/
       'no-console': 'error',
       'no-debugger': 'error',
       'node/no-process-exit': 'off',
@@ -83,7 +65,8 @@ export default [
       'no-shadow': 'error',
       'no-undef-init': 'error',
       'no-unneeded-ternary': 'error',
-      'no-unused-expressions': 'error',
+      'no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-expressions': 'error',
       'no-useless-call': 'error',
       'no-useless-catch': 'error',
       'no-useless-computed-key': 'error',
@@ -108,42 +91,15 @@ export default [
       yoda: 'error',
       '@typescript-eslint/prefer-readonly': 'error',
       '@typescript-eslint/prefer-regexp-exec': 'error',
-      '@typescript-eslint/ban-types': [
-        'error',
-        {
-          types: {
-            Object: {
-              message: 'Avoid using the `Object` type. Did you mean `object`?',
-            },
-            Function: {
-              message:
-                'Avoid using the `Function` type. Prefer a specific function type, like `() => void`.',
-            },
-            Boolean: {
-              message:
-                'Avoid using the `Boolean` type. Did you mean `boolean`?',
-            },
-            Number: {
-              message: 'Avoid using the `Number` type. Did you mean `number`?',
-            },
-            String: {
-              message: 'Avoid using the `String` type. Did you mean `string`?',
-            },
-            Symbol: {
-              message: 'Avoid using the `Symbol` type. Did you mean `symbol`?',
-            },
-          },
-        },
-      ],
       '@typescript-eslint/no-invalid-void-type': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
-      '@typescript-eslint/no-throw-literal': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
       '@typescript-eslint/consistent-indexed-object-style': [
         'error',
         'index-signature',
       ],
-      'node/shebang': 'off',
+      'node/hashbang': 'off',
       'node/no-missing-import': 'off',
       'node/no-unpublished-import': 'off',
       'node/no-deprecated-api': [
@@ -273,10 +229,11 @@ export default [
   },
   {
     files: ['bin/**/*.ts'],
+    ignores: ['bin/**/*.d.ts'],
     rules: {
       'no-console': 'off',
       'no-process-exit': 'off',
       'node/no-unpublished-bin': 'error',
     },
   },
-];
+]);
