@@ -14,7 +14,7 @@
     "**/*.d.ts": true,
     "!.prettierrc.cjs": true,
     "!eslint.config.js": true,
-    "!.gitignore"
+    "!.gitignore": true
   },
   "files.eol": "\n",
   "typescript.tsdk": "node_modules/typescript/lib",
